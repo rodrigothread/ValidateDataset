@@ -34,25 +34,26 @@ public class CountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
             throws IOException, InterruptedException,SocketException,UnknownHostException {
 
         ip = InetAddress.getLocalHost();
-        System.out.println("Current IP address : " + ip.getHostAddress());
+        ip.getHostName();
+        //System.out.println("Current IP address : " + ip.getHostAddress());
 
-        NetworkInterface network = NetworkInterface.getByInetAddress(ip);
+        //NetworkInterface network = NetworkInterface.getByInetAddress(ip);
 
-        byte[] mac = network.getHardwareAddress();
+        //byte[] mac = network.getHardwareAddress();
 
-        System.out.print("Current MAC address : ");
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < mac.length; i++) {
-            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
-        }
-        System.out.println(sb.toString());
+        //System.out.print("Current MAC address : ");
+        //StringBuilder sb = new StringBuilder();
+        //for (int i = 0; i < mac.length; i++) {
+           // sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+        //}
+        //System.out.println(sb.toString());
 
         String line = value.toString();
         StringTokenizer itr = new StringTokenizer(line);
         
         while (itr.hasMoreTokens()) {
             
-            word.set(sb.toString());
+            word.set(ip.getHostName());
             context.write(word, one);
 
         }
