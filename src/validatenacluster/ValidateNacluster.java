@@ -11,6 +11,7 @@ package validatenacluster;
  */
 import java.net.URI;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -28,10 +29,12 @@ public class ValidateNacluster {
             System.err.println("Usage: ValidateNacluster <input path/folder> <output path/folder>");
             System.exit(-1);
         }
-
-        Job job = new Job();
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf, "Partition for Machine Count");
+        
         job.setJarByClass(ValidateNacluster.class);
         job.setJobName("Partition for Machine Count");
+        
         /*String configurationHdfs = "";
         Configuration conf;
         conf = new Configuration();
@@ -46,8 +49,8 @@ public class ValidateNacluster {
         if (hdfs.exists(newFolderPath)) {
             hdfs.delete(newFolderPath, true); //Delete existing Directory
         }*/
-
-        FileInputFormat.setInputPaths(job, new Path(args[0]));
+        
+     FileInputFormat.addInputPaths(job, args[0]);
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
         
         job.setMapperClass(CountMapper.class);

@@ -33,8 +33,8 @@ public class CountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     public void map(LongWritable Key, Text value, Context context)
             throws IOException, InterruptedException,SocketException,UnknownHostException {
 
-        ip = InetAddress.getLocalHost();
-        ip.getHostName();
+        //ip = InetAddress.getLocalHost();
+       // ip.getHostName();
         //System.out.println("Current IP address : " + ip.getHostAddress());
 
         //NetworkInterface network = NetworkInterface.getByInetAddress(ip);
@@ -53,7 +53,7 @@ public class CountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         
         while (itr.hasMoreTokens()) {
             
-            word.set(ip.getHostName());
+            word.set("rodrigo");
             context.write(word, one);
 
         }
