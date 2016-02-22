@@ -22,14 +22,19 @@ public class ValidateNacluster {
 
         private final static IntWritable one = new IntWritable(1);
         InetAddress ip;
-        
+
         private Text word = new Text("Total Lines");
+        private Text id_partition = new Text("");
 
         public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException {
+
+            ip = InetAddress.getLocalHost();
+            String line = value.toString();
+            String id[] = line.split(";");
             
-            ip = InetAddress.getLocalHost();       
-        
-            Text word = new Text(ip.getHostName());
+
+            Text word = new Text();
+            word.set(id[0] + ip.getHostName());
             output.collect(word, one);
         }
     }
@@ -46,7 +51,7 @@ public class ValidateNacluster {
     }
 
     public static void main(String[] args) throws Exception {
-        
+
         JobConf conf = new JobConf(ValidateNacluster.class);
         conf.setJobName("Partition for Machine Count");
         conf.setOutputKeyClass(Text.class);
@@ -59,6 +64,6 @@ public class ValidateNacluster {
         FileInputFormat.setInputPaths(conf, new Path(args[0]));
         FileOutputFormat.setOutputPath(conf, new Path(args[1]));
         JobClient.runJob(conf);
-        
+
     }
 }
